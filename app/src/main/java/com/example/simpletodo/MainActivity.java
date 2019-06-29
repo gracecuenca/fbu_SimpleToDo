@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+// activity is basically just a screen in the app
+// service has no UI (no onCreate() to set a content view) ex. playing music in the background, etc.
+// AppCompatActivity extension allows us to not worry about compatibility every time new versions come out
+// an Activity extends (is-a) context which is why you can pass it in when a context is demanded
 public class MainActivity extends AppCompatActivity {
 
     // a numeric code to identify the edit activity
@@ -28,15 +32,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String ITEM_TEXT = "itemText";
     public static final String ITEM_POSITION = "itemPosition";
 
-    // instance variables
-    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;
-    ListView lvItems;
+    // static are usually only used for primitives, not for complex objects like ListViews
+    // if you see this it's probably fishy o.o, technically created a memory leak
 
-    @Override
+    // instance variables
+    ArrayList<String> items; // contains the actual items
+    ArrayAdapter<String> itemsAdapter; // is an adapter, translating between the data and the views
+    ListView lvItems; // the list view
+
+    @Override // this annotation generates code or gives IDE hints
+    // by convention, you typically do all setup in onCreate method
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); // R is short for resources
 
         readItems();
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,items);
